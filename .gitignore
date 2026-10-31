@@ -1,0 +1,20 @@
+# Python virtual environment
+server/venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Environment variables
+.env
+server/.env
+
+# Node.js
+client/node_modules/
+
+# Expo
+client/.expo/
+client/dist/
+
+# IDE
+.vscode/
