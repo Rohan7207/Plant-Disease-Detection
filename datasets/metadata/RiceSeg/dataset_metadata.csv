@@ -1,0 +1,15 @@
+﻿Field,Value
+Dataset_Name,Rice Leaf Disease Image Samples + RiceSeg-5932 Masks
+Crop,Rice
+Original_Images,5932
+Segmentation_Masks,5932
+Diseases,"Bacterial Blight; Blast; Brown Spot; Tungro"
+Image_License,CC BY 4.0
+Mask_License,CC BY 4.0
+Image_Source,https://data.mendeley.com/datasets/fwcj7stb8r/1
+Image_DOI,10.17632/fwcj7stb8r.1
+Mask_Source,https://data.mendeley.com/datasets/92jc6w6mcy/1
+Mask_DOI,10.17632/92jc6w6mcy.1
+Image_Attribution,"Sethy, Prabira Kumar (2020), Mendeley Data"
+Mask_Attribution,"Zinsou and Houndji (2025), Mendeley Data"
+Task,Image Classification and Disease Segmentation

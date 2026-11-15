@@ -1,0 +1,16 @@
+﻿Field,Value
+Project_Name,"Image Dataset on Chili Leaf Diseases in the Krishna River Basin"
+Repository,Mendeley Data
+DOI,10.17632/ymt2k9bjkn.3
+Data_Type,JPG (Raw and Processed)
+Total_Original_Images,1856
+Total_Augmented_Images,12000
+Target_Resolution_Original,"4000x3000, 3000x4000"
+Target_Resolution_Augmented,224x224
+Classes,"6 (Bacterial Spot; Curl Virus; Cercospora Leaf Spot; Nutrition Deficiency; White Spot; Healthy Leaf)"
+Collection_Period,October 2024 - February 2025
+Geographic_Focus,"Bellary (KA), Raichur (KA), Guntur (AP), Prakasam (AP), Krishna (AP), Kurnool (AP)"
+Latitude_Range,15.15 N to 16.42 N
+Longitude_Range,76.93 E to 80.96 E
+Validation_Models,"EfficientNetB7 (98.67% Acc), ResNet152 (97.87% Acc)"
+Augmentation_Techniques,"Random rotation, flipping, zooming, brightness adjustment"
