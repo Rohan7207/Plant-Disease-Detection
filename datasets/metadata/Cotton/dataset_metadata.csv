@@ -1,0 +1,15 @@
+﻿Field,Value
+Dataset_Name,Cotton Leaf Image Dataset for Disease Classification
+Crop,Cotton
+Total_Original_Images,1373
+Total_Augmented_Images,4963
+Classes,5
+Diseases,"Alternaria Leaf Spot; Bacterial Blight; Fusarium Wilt; Verticillium Wilt; Healthy Leaf"
+Image_Format,PNG
+License,CC BY 4.0
+Source,https://data.mendeley.com/datasets/t9hgvk2h9p/1
+DOI,10.17632/t9hgvk2h9p.1
+Institution,East West University
+Attribution,"Ripon et al. (2025), Cotton Leaf Image Dataset for Disease Classification, Mendeley Data"
+Task,Image Classification
+Segmentation_Masks,Not Provided

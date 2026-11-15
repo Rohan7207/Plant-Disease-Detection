@@ -1,20 +1,59 @@
-# Python virtual environment
-server/venv/
+
+# Python virtual environments
+venv/
+.venv/
+env/
 
 # Python cache
 __pycache__/
 *.py[cod]
+.pytest_cache/
 
-# Environment variables
+# Environment variables and secrets
 .env
-server/.env
+.env.*
+!.env.example
 
-# Node.js
-client/node_modules/
+# Node dependencies
+node_modules/
 
 # Expo
-client/.expo/
-client/dist/
+.expo/
+dist/
+web-build/
+
+# Logs
+*.log
+
+# Dataset archives
+datasets/archives/
+
+# Original extracted datasets
+datasets/raw/
+
+# Processed datasets and generated files
+datasets/processed/
+
+# Dataset temporary files
+datasets/temp/
+datasets/*.jpg
+datasets/*.png
+
+# Model weights and checkpoints
+*.h5
+*.keras
+*.pt
+*.pth
+*.onnx
+*.ckpt
+
+# Jupyter
+.ipynb_checkpoints/
 
 # IDE
 .vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,5 @@
+Dataset,Total Images,Valid Images,Corrupted Images,Unique Dimensions
+PlantSeg,7774,7774,0,3895
+RiceSeg,5932,5932,0,357
+Cotton,1373,1373,0,1
+Chilli,1856,1856,0,1
