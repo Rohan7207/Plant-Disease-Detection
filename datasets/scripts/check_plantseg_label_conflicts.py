@@ -1,37 +1,46 @@
 
 import csv
-import hashlib
 from collections import defaultdict
 from pathlib import Path
 
-BASE = Path("datasets/raw/PlantSeg/plantseg")
+DUPLICATES = Path("datasets/metadata/duplicate_images.csv")
 METADATA = Path("datasets/metadata/PlantSeg/Metadata.csv")
 OUTPUT = Path("datasets/metadata/PlantSeg/label_conflicts.csv")
 
-groups = defaultdict(list)
+labels = {}
 
 with METADATA.open("r", encoding="utf-8-sig", newline="") as f:
     for row in csv.DictReader(f):
-        image_path = BASE / row["Name"]
-
-        if not image_path.is_file():
-            continue
-
-        digest = hashlib.sha256(image_path.read_bytes()).hexdigest()
-
-        groups[digest].append({
-            "Name": row["Name"],
+        labels[row["Name"]] = {
             "Plant": row["Plant"],
             "Disease": row["Disease"],
             "Split": row["Split"]
-        })
+        }
+
+groups = defaultdict(list)
+
+with DUPLICATES.open("r", encoding="utf-8-sig", newline="") as f:
+    for row in csv.DictReader(f):
+        if row["Dataset"] != "PlantSeg":
+            continue
+
+        filename = Path(row["File"]).name
+
+        if filename in labels:
+            groups[row["SHA256"]].append({
+                "File": row["File"],
+                **labels[filename]
+            })
 
 conflicts = []
 
 for digest, files in groups.items():
-    labels = {(item["Plant"], item["Disease"]) for item in files}
+    unique_labels = {
+        (item["Plant"], item["Disease"])
+        for item in files
+    }
 
-    if len(labels) > 1:
+    if len(unique_labels) > 1:
         for item in files:
             conflicts.append({
                 "SHA256": digest,
@@ -43,13 +52,15 @@ OUTPUT.parent.mkdir(parents=True, exist_ok=True)
 with OUTPUT.open("w", encoding="utf-8", newline="") as f:
     writer = csv.DictWriter(
         f,
-        fieldnames=["SHA256", "Name", "Plant", "Disease", "Split"]
+        fieldnames=[
+            "SHA256", "File", "Plant", "Disease", "Split"
+        ]
     )
     writer.writeheader()
     writer.writerows(conflicts)
 
-print("Conflicting duplicate groups:", len({
-    item["SHA256"] for item in conflicts
+print("Conflicting groups:", len({
+    row["SHA256"] for row in conflicts
 }))
 print("Files involved:", len(conflicts))
 print("Report saved:", OUTPUT.resolve())

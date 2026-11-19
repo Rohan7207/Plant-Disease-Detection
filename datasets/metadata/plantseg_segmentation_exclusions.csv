@@ -1,0 +1,2 @@
+﻿Dataset,Image,Mask,Segmentation_Action,Reason,Classification_Action
+PlantSeg,datasets/raw/PlantSeg/plantseg/images/train/coffee_leaf_rust_google_0136.jpg,datasets/raw/PlantSeg/plantseg/annotations/train/coffee_leaf_rust_google_0136.png,EXCLUDE,UNUSABLE_UNIFORM_MASK_AND_UNSUITABLE_IMAGE_CONTENT,REVIEW
