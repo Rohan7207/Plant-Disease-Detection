@@ -1,0 +1,131 @@
+Dataset,Class,Image_Count
+Chilli,Bacterial Spot,147
+Chilli,Cercospora Leaf Spot,175
+Chilli,Curl Virus,423
+Chilli,Healthy Leaf,458
+Chilli,Nutrition Deficiency,444
+Chilli,White spot,195
+Cotton,Alternaria Leaf Spot,158
+Cotton,Bacterial Blight,185
+Cotton,Fusarium Wilt,316
+Cotton,Healthy Leaf,174
+Cotton,Verticillium Wilt,291
+PlantSeg,Apple | apple black rot,62
+PlantSeg,Apple | apple mosaic virus,73
+PlantSeg,Apple | apple rust,96
+PlantSeg,Apple | apple scab,166
+PlantSeg,Banana | banana anthracnose,48
+PlantSeg,Banana | banana black leaf streak,108
+PlantSeg,Banana | banana bunchy top,72
+PlantSeg,Banana | banana cigar end rot,31
+PlantSeg,Banana | banana cordana leaf spot,28
+PlantSeg,Banana | banana panama disease,49
+PlantSeg,Basil | basil downy mildew,41
+PlantSeg,Bean | bean halo blight,34
+PlantSeg,Bean | bean mosaic virus,33
+PlantSeg,Bean | bean rust,74
+PlantSeg,Bell pepper | bell pepper bacterial spot,47
+PlantSeg,Bell pepper | bell pepper blossom end rot,78
+PlantSeg,Bell pepper | bell pepper frogeye leaf spot,17
+PlantSeg,Bell pepper | bell pepper powdery mildew,18
+PlantSeg,Blueberry | blueberry anthracnose,26
+PlantSeg,Blueberry | blueberry botrytis blight,19
+PlantSeg,Blueberry | blueberry mummy berry,28
+PlantSeg,Blueberry | blueberry rust,33
+PlantSeg,Blueberry | blueberry scorch,32
+PlantSeg,Broccoli | broccoli alternaria leaf spot,45
+PlantSeg,Broccoli | broccoli downy mildew,22
+PlantSeg,Broccoli | broccoli ring spot,7
+PlantSeg,Cabbage | cabbage alternaria leaf spot,30
+PlantSeg,Cabbage | cabbage black rot,88
+PlantSeg,Cabbage | cabbage downy mildew,48
+PlantSeg,Carrot | carrot alternaria leaf blight,43
+PlantSeg,Carrot | carrot cavity spot,42
+PlantSeg,Carrot | carrot cercospora leaf blight,16
+PlantSeg,Cauliflower | cauliflower alternaria leaf spot,23
+PlantSeg,Cauliflower | cauliflower bacterial soft rot,18
+PlantSeg,Celery | celery anthracnose,11
+PlantSeg,Celery | celery early blight,28
+PlantSeg,Cherry | cherry leaf spot,66
+PlantSeg,Cherry | cherry powdery mildew,25
+PlantSeg,Citrus | citrus canker,321
+PlantSeg,Citrus | citrus greening disease,93
+PlantSeg,Coffee | coffee berry blotch,60
+PlantSeg,Coffee | coffee black rot,3
+PlantSeg,Coffee | coffee brown eye spot,10
+PlantSeg,Coffee | coffee leaf rust,107
+PlantSeg,Corn | corn gray leaf spot,76
+PlantSeg,Corn | corn northern leaf blight,92
+PlantSeg,Corn | corn rust,120
+PlantSeg,Corn | corn smut,131
+PlantSeg,Cucumber | cucumber angular leaf spot,148
+PlantSeg,Cucumber | cucumber bacterial wilt,82
+PlantSeg,Cucumber | cucumber powdery mildew,144
+PlantSeg,Eggplant | eggplant cercospora leaf spot,35
+PlantSeg,Eggplant | eggplant phomopsis fruit rot,32
+PlantSeg,Eggplant | eggplant phytophthora blight,22
+PlantSeg,Garlic | garlic leaf blight,79
+PlantSeg,Garlic | garlic rust,80
+PlantSeg,Ginger | ginger leaf spot,22
+PlantSeg,Ginger | ginger sheath blight,54
+PlantSeg,Grape | grape black rot,87
+PlantSeg,Grape | grape downy mildew,208
+PlantSeg,Grape | grape leaf spot,63
+PlantSeg,Grape | grapevine leafroll disease,32
+PlantSeg,Lettuce | lettuce downy mildew,53
+PlantSeg,Lettuce | lettuce mosaic virus,22
+PlantSeg,Maple | maple tar spot,57
+PlantSeg,Peach | peach anthracnose,10
+PlantSeg,Peach | peach brown rot,90
+PlantSeg,Peach | peach leaf curl,121
+PlantSeg,Peach | peach rust,5
+PlantSeg,Peach | peach scab,53
+PlantSeg,Plum | plum bacterial spot,10
+PlantSeg,Plum | plum brown rot,38
+PlantSeg,Plum | plum pocket disease,28
+PlantSeg,Plum | plum pox virus,22
+PlantSeg,Plum | plum rust,17
+PlantSeg,Potato | potato early blight,59
+PlantSeg,Potato | potato late blight,76
+PlantSeg,Raspberry | raspberry fire blight,23
+PlantSeg,Raspberry | raspberry gray mold,17
+PlantSeg,Raspberry | raspberry leaf spot,11
+PlantSeg,Raspberry | raspberry yellow rust,22
+PlantSeg,Rice | rice blast,50
+PlantSeg,Rice | rice sheath blight,50
+PlantSeg,Soybean | soybean bacterial blight,57
+PlantSeg,Soybean | soybean brown spot,45
+PlantSeg,Soybean | soybean downy mildew,72
+PlantSeg,Soybean | soybean frog eye leaf spot,138
+PlantSeg,Soybean | soybean mosaic,88
+PlantSeg,Soybean | soybean rust,65
+PlantSeg,Squash | squash powdery mildew,135
+PlantSeg,Strawberry | strawberry anthracnose,30
+PlantSeg,Strawberry | strawberry leaf scorch,19
+PlantSeg,Tobacco | tobacco blue mold,33
+PlantSeg,Tobacco | tobacco brown spot,45
+PlantSeg,Tobacco | tobacco frogeye leaf spot,14
+PlantSeg,Tobacco | tobacco mosaic virus,29
+PlantSeg,Tomato | tomato bacterial leaf spot,85
+PlantSeg,Tomato | tomato early blight,144
+PlantSeg,Tomato | tomato late blight,117
+PlantSeg,Tomato | tomato leaf mold,102
+PlantSeg,Tomato | tomato mosaic virus,38
+PlantSeg,Tomato | tomato septoria leaf spot,90
+PlantSeg,Tomato | tomato yellow leaf curl virus,59
+PlantSeg,Wheat | wheat bacterial leaf streak (black chaff),79
+PlantSeg,Wheat | wheat head scab,199
+PlantSeg,Wheat | wheat leaf rust,70
+PlantSeg,Wheat | wheat loose smut,127
+PlantSeg,Wheat | wheat powdery mildew,175
+PlantSeg,Wheat | wheat septoria blotch,122
+PlantSeg,Wheat | wheat stem rust,83
+PlantSeg,Wheat | wheat stripe rust,211
+PlantSeg,Zucchini | zucchini bacterial wilt,56
+PlantSeg,Zucchini | zucchini downy mildew,32
+PlantSeg,Zucchini | zucchini powdery mildew,124
+PlantSeg,Zucchini | zucchini yellow mosaic virus,56
+RiceSeg,Bacterialblight,1326
+RiceSeg,Blast,960
+RiceSeg,Brownspot,1200
+RiceSeg,Tungro,1308
