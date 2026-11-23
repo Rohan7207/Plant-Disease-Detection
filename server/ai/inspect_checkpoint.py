@@ -1,7 +1,7 @@
 
 import torch
 
-checkpoint_path = "server/ai/mobilenetv2_phase1.pth"
+checkpoint_path = "server/ai/mobilenetv2_phase2.pth"
 
 checkpoint = torch.load(
     checkpoint_path,
