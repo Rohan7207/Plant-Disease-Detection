@@ -1,0 +1,88 @@
+{
+  "rice": {
+    "bacterialblight": {
+      "name": {
+        "en": "Bacterial Leaf Blight",
+        "kn": "ಬ್ಯಾಕ್ಟೀರಿಯಲ್ ಎಲೆ ಅಂಗಮಾರಿ",
+        "hi": "जीवाणु पत्ती झुलसा रोग"
+      },
+      "scientific_name": "Xanthomonas oryzae pv. oryzae",
+      "description": {
+        "en": "Bacterial Leaf Blight is a bacterial disease of rice that affects leaves and can cause severe wilting in young plants.",
+        "kn": "ಬ್ಯಾಕ್ಟೀರಿಯಲ್ ಎಲೆ ಅಂಗಮಾರಿ ಭತ್ತದ ಬೆಳೆಗೆ ತಗುಲುವ ಬ್ಯಾಕ್ಟೀರಿಯಾ ರೋಗವಾಗಿದ್ದು, ಎಲೆಗಳಿಗೆ ಹಾನಿ ಉಂಟುಮಾಡುತ್ತದೆ ಮತ್ತು ಎಳೆಯ ಸಸಿಗಳು ಒಣಗಲು ಕಾರಣವಾಗಬಹುದು.",
+        "hi": "जीवाणु पत्ती झुलसा धान की एक जीवाणु जनित बीमारी है। यह पत्तियों को प्रभावित करती है और छोटे पौधों में गंभीर मुरझाने का कारण बन सकती है।"
+      },
+      "symptoms": {
+        "en": [
+          "Water-soaked streaks appear near leaf tips or edges.",
+          "Streaks gradually become yellow and develop wavy margins.",
+          "Infected leaves turn straw-coloured and dry.",
+          "Young plants may wilt severely.",
+          "Milky bacterial droplets may appear on fresh lesions in humid conditions."
+        ],
+        "kn": [
+          "ಎಲೆಗಳ ತುದಿ ಅಥವಾ ಅಂಚಿನಲ್ಲಿ ನೀರಿನಿಂದ ನೆನೆದಂತೆ ಕಾಣುವ ಗೆರೆಗಳು ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತವೆ.",
+          "ಈ ಗೆರೆಗಳು ಕ್ರಮೇಣ ಹಳದಿ ಬಣ್ಣಕ್ಕೆ ತಿರುಗಿ ಅಲೆಗಳಂತಹ ಅಂಚುಗಳನ್ನು ಹೊಂದಿರುತ್ತವೆ.",
+          "ಸೋಂಕಿತ ಎಲೆಗಳು ಒಣಹುಲ್ಲಿನ ಬಣ್ಣಕ್ಕೆ ತಿರುಗಿ ಒಣಗುತ್ತವೆ.",
+          "ಎಳೆಯ ಸಸಿಗಳು ತೀವ್ರವಾಗಿ ಬಾಡಬಹುದು.",
+          "ತೇವಾಂಶ ಹೆಚ್ಚಿರುವಾಗ ಹೊಸ ಗಾಯಗಳ ಮೇಲೆ ಹಾಲಿನಂತಹ ಬ್ಯಾಕ್ಟೀರಿಯಾ ಹನಿಗಳು ಕಾಣಿಸಬಹುದು."
+        ],
+        "hi": [
+          "पत्तियों के किनारों या सिरों पर पानी से भीगे हुए धारियां दिखाई देती हैं।",
+          "ये धारियां धीरे-धीरे पीली हो जाती हैं और इनके किनारे लहरदार दिखाई देते हैं।",
+          "संक्रमित पत्तियां भूसे के रंग की होकर सूख जाती हैं।",
+          "छोटे पौधे गंभीर रूप से मुरझा सकते हैं।",
+          "अधिक नमी में नए घावों पर दूध जैसी जीवाणु की बूंदें दिखाई दे सकती हैं।"
+        ]
+      },
+      "affected_parts": {
+        "en": ["Leaves", "Seedlings"],
+        "kn": ["ಎಲೆಗಳು", "ಸಸಿಗಳು"],
+        "hi": ["पत्तियां", "पौधे"]
+      },
+      "prevention": {
+        "en": [
+          "Grow resistant or tolerant rice varieties.",
+          "Use healthy and disease-free seeds.",
+          "Apply nitrogen fertilizers in balanced and recommended quantities.",
+          "Maintain field sanitation and remove infected crop residues.",
+          "Avoid clipping seedling leaf tips during transplanting."
+        ],
+        "kn": [
+          "ರೋಗ ನಿರೋಧಕ ಅಥವಾ ಸಹಿಷ್ಣು ಭತ್ತದ ತಳಿಗಳನ್ನು ಬೆಳೆಸಿ.",
+          "ಆರೋಗ್ಯಕರ ಮತ್ತು ರೋಗರಹಿತ ಬೀಜಗಳನ್ನು ಬಳಸಿ.",
+          "ಶಿಫಾರಸು ಮಾಡಿದ ಪ್ರಮಾಣದಲ್ಲಿ ಸಮತೋಲಿತ ಸಾರಜನಕ ಗೊಬ್ಬರವನ್ನು ಬಳಸಿ.",
+          "ಹೊಲವನ್ನು ಸ್ವಚ್ಛವಾಗಿರಿಸಿ ಮತ್ತು ಸೋಂಕಿತ ಬೆಳೆ ಅವಶೇಷಗಳನ್ನು ತೆಗೆದುಹಾಕಿ.",
+          "ನಾಟಿ ಮಾಡುವಾಗ ಸಸಿಗಳ ಎಲೆಗಳ ತುದಿಯನ್ನು ಕತ್ತರಿಸುವುದನ್ನು ತಪ್ಪಿಸಿ."
+        ],
+        "hi": [
+          "रोग प्रतिरोधी या सहनशील धान की किस्में उगाएं।",
+          "स्वस्थ और रोगमुक्त बीजों का उपयोग करें।",
+          "नाइट्रोजन उर्वरकों का संतुलित और अनुशंसित मात्रा में उपयोग करें।",
+          "खेत को साफ रखें और संक्रमित फसल अवशेषों को हटाएं।",
+          "रोपाई के समय पौधों की पत्तियों के सिरों को काटने से बचें।"
+        ]
+      },
+      "management": {
+        "en": [
+          "Inspect the field regularly for early symptoms.",
+          "Remove and properly dispose of severely infected plant material.",
+          "Maintain proper water and nutrient management.",
+          "Seek advice from local agricultural experts before using chemical treatments."
+        ],
+        "kn": [
+          "ಆರಂಭಿಕ ಲಕ್ಷಣಗಳನ್ನು ಪತ್ತೆಹಚ್ಚಲು ಹೊಲವನ್ನು ನಿಯಮಿತವಾಗಿ ಪರಿಶೀಲಿಸಿ.",
+          "ತೀವ್ರವಾಗಿ ಸೋಂಕಿತ ಸಸ್ಯ ಭಾಗಗಳನ್ನು ತೆಗೆದು ಸರಿಯಾಗಿ ವಿಲೇವಾರಿ ಮಾಡಿ.",
+          "ನೀರು ಮತ್ತು ಪೋಷಕಾಂಶಗಳ ಸರಿಯಾದ ನಿರ್ವಹಣೆ ಮಾಡಿ.",
+          "ರಾಸಾಯನಿಕ ಚಿಕಿತ್ಸೆಯನ್ನು ಬಳಸುವ ಮೊದಲು ಸ್ಥಳೀಯ ಕೃಷಿ ತಜ್ಞರ ಸಲಹೆ ಪಡೆಯಿರಿ."
+        ],
+        "hi": [
+          "शुरुआती लक्षणों की पहचान के लिए खेत का नियमित निरीक्षण करें।",
+          "गंभीर रूप से संक्रमित पौधों के हिस्सों को हटाकर उचित तरीके से नष्ट करें।",
+          "पानी और पोषक तत्वों का उचित प्रबंधन करें।",
+          "रासायनिक उपचार करने से पहले स्थानीय कृषि विशेषज्ञों की सलाह लें।"
+        ]
+      }
+    }
+  }
+}

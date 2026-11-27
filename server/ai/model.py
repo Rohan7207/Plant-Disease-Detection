@@ -5,15 +5,17 @@ from torchvision import models
 
 class PlantDiseaseModel(nn.Module):
 
-    def __init__(self, num_classes=130):
+    def __init__(self, num_classes=130, pretrained=True):
         super().__init__()
 
-        # Load MobileNetV2 pretrained on ImageNet.
-        self.model = models.mobilenet_v2(
-            weights=models.MobileNet_V2_Weights.DEFAULT
+        weights = (
+            models.MobileNet_V2_Weights.DEFAULT
+            if pretrained
+            else None
         )
 
-        # Replace the final classification layer.
+        self.model = models.mobilenet_v2(weights=weights)
+
         input_features = self.model.classifier[1].in_features
 
         self.model.classifier[1] = nn.Linear(

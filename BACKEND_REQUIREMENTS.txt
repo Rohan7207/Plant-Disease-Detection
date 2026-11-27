@@ -1,0 +1,512 @@
+# PLANT DISEASE DETECTION
+# BACKEND REQUIREMENTS AND DATABASE DESIGN
+
+Version: 2.0
+Status: Approved design baseline
+
+---
+
+## 1. PROJECT OVERVIEW
+
+The application helps users detect plant diseases using AI and monitor plant health over time.
+
+Users can:
+- Register and manage personal accounts.
+- Track individual plants.
+- Track crop batches.
+- Upload leaf images for disease detection.
+- View disease information in multiple languages.
+- Maintain prediction history.
+- Record plant observations and treatments.
+- View personalized dashboards and historical health reports.
+
+The backend is responsible for authentication, authorization, database management, AI inference, image storage, disease information and analytics.
+
+## 2. TECHNOLOGY STACK
+
+| Component | Technology |
+|---|---|
+| Backend | Python + Flask |
+| API | REST API |
+| Database | MySQL 8.x |
+| Storage engine | InnoDB |
+| ORM | SQLAlchemy |
+| Migrations | Flask-Migrate / Alembic |
+| Database driver | PyMySQL |
+| Authentication | JWT access and refresh tokens |
+| Password hashing | Werkzeug secure password hashing |
+| AI framework | PyTorch |
+| AI model | MobileNetV2 |
+| Image processing | Pillow |
+| Image storage | Local storage initially |
+| Configuration | Environment variables |
+| Mobile application | React Native + Expo + TypeScript |
+| Disease information | Curated JSON data |
+| Supported languages | English, Kannada, Hindi |
+
+## 3. FINALIZED ARCHITECTURAL DECISIONS
+
+1. MySQL with InnoDB is the primary relational database.
+2. SQLAlchemy is used for ORM and database operations.
+3. Flask-Migrate manages database schema changes.
+4. Internal identifiers use BIGINT UNSIGNED.
+5. Public API identifiers use UUID stored as BINARY(16).
+6. Users can manage individual plants and crop batches.
+7. Disease scans can be performed without a registered plant or batch.
+8. Predictions can optionally reference a plant or batch.
+9. Local image storage is used during development.
+10. Database records store image metadata and storage references.
+11. Disease descriptions remain in curated multilingual JSON initially.
+12. Prediction records preserve historical AI results.
+13. All private resources are protected by authentication and ownership checks.
+14. Database transactions are used for related operations.
+15. Historical records must not be accidentally destroyed by cascading deletes.
+
+## 4. APPLICATION FLOW
+
+### Authentication
+Registration → Login → Access token → Protected API requests → Refresh or logout.
+
+### Plant management
+Users create individual plant records or crop batch records.
+
+### Disease detection
+Image upload → Validation → Preprocessing → AI inference → Disease information retrieval → Optional plant/batch association → Database persistence → API response.
+
+### Health tracking
+Users record observations, symptoms, watering, soil conditions, pests and treatments.
+
+### Dashboard
+The backend aggregates the user's plants, batches, prediction history, observations and treatments.
+
+### Reports
+Historical records are used to generate plant-level and batch-level reports.
+
+## 5. DATABASE ENGINEERING STANDARDS
+
+### ACID
+
+- Atomicity: Related database changes commit together or roll back together.
+- Consistency: Constraints and validation maintain valid data.
+- Isolation: InnoDB transaction isolation protects concurrent operations.
+- Durability: Committed data is persisted, supported by backups and recovery procedures.
+
+### Other standards
+
+- Explicit SQLAlchemy transaction boundaries.
+- Foreign-key constraints.
+- CHECK constraints.
+- Unique constraints.
+- Appropriate indexes.
+- UTC timestamps.
+- Normalized relational tables.
+- Explicit deletion and retention policies.
+- Parameterized ORM queries.
+- Database migrations through Alembic.
+- No production schema changes through create_all().
+
+## 6. IDENTIFIER STRATEGY
+
+Every externally addressable main entity uses:
+
+- `id`: BIGINT UNSIGNED, internal primary key.
+- `public_id`: BINARY(16), unique public UUID.
+
+UUID version: UUIDv4.
+
+Rules:
+- BIGINT identifiers are used for joins and foreign keys.
+- UUIDs are used in API URLs and external references.
+- Public UUIDs have UNIQUE constraints.
+- Internal numeric IDs are not exposed through API responses.
+- UUIDs do not replace authentication or authorization.
+- Ownership checks are mandatory.
+
+## 7. DATABASE TABLES
+
+### 7.1 users
+
+- id: BIGINT UNSIGNED, primary key
+- public_id: BINARY(16), unique, not null
+- full_name: VARCHAR(100), not null
+- email: VARCHAR(255), unique, not null
+- password_hash: VARCHAR(255), not null
+- preferred_language: VARCHAR(5), not null, default 'en'
+- account_status: VARCHAR(20), not null, default 'active'
+- created_at: DATETIME(6), not null
+- updated_at: DATETIME(6), not null
+
+Supported languages: en, kn, hi.
+
+Account statuses: active, suspended, pending.
+
+### 7.2 crops
+
+- id: BIGINT UNSIGNED, primary key
+- code: VARCHAR(100), unique, not null
+- display_name: VARCHAR(100), not null
+- scientific_name: VARCHAR(150), nullable
+- is_active: BOOLEAN, not null, default true
+- created_at: DATETIME(6), not null
+
+### 7.3 diseases
+
+- id: BIGINT UNSIGNED, primary key
+- crop_id: BIGINT UNSIGNED, foreign key to crops.id
+- code: VARCHAR(100), not null
+- display_name: VARCHAR(150), not null
+- scientific_name: VARCHAR(200), nullable
+- is_active: BOOLEAN, not null, default true
+- created_at: DATETIME(6), not null
+
+Constraints:
+- UNIQUE(crop_id, code)
+- UNIQUE(crop_id, id)
+
+Multilingual disease descriptions remain in diseases.json initially.
+
+### 7.4 plants
+
+- id: BIGINT UNSIGNED, primary key
+- public_id: BINARY(16), unique, not null
+- user_id: BIGINT UNSIGNED, foreign key to users.id
+- crop_id: BIGINT UNSIGNED, foreign key to crops.id
+- name: VARCHAR(100), not null
+- variety: VARCHAR(100), nullable
+- planted_on: DATE, nullable
+- location: VARCHAR(255), nullable
+- notes: TEXT, nullable
+- created_at: DATETIME(6), not null
+- updated_at: DATETIME(6), not null
+- deleted_at: DATETIME(6), nullable
+
+Constraint:
+- UNIQUE(id, user_id)
+
+### 7.5 crop_batches
+
+- id: BIGINT UNSIGNED, primary key
+- public_id: BINARY(16), unique, not null
+- user_id: BIGINT UNSIGNED, foreign key to users.id
+- crop_id: BIGINT UNSIGNED, foreign key to crops.id
+- name: VARCHAR(100), not null
+- variety: VARCHAR(100), nullable
+- planted_on: DATE, nullable
+- cultivated_area: DECIMAL(12,4), nullable
+- area_unit: VARCHAR(20), nullable
+- plant_count: INT UNSIGNED, nullable
+- location: VARCHAR(255), nullable
+- notes: TEXT, nullable
+- created_at: DATETIME(6), not null
+- updated_at: DATETIME(6), not null
+- deleted_at: DATETIME(6), nullable
+
+Constraints:
+- UNIQUE(id, user_id)
+- cultivated_area must be positive when supplied.
+- plant_count must be positive when supplied.
+- area_unit must use supported values.
+
+### 7.6 image_assets
+
+- id: BIGINT UNSIGNED, primary key
+- user_id: BIGINT UNSIGNED, foreign key to users.id
+- storage_key: VARCHAR(255), unique, not null
+- original_filename: VARCHAR(255), nullable
+- mime_type: VARCHAR(100), not null
+- file_size_bytes: BIGINT UNSIGNED, not null
+- sha256_hash: CHAR(64), not null
+- created_at: DATETIME(6), not null
+
+Storage keys must be generated by the backend. Original filenames must never be used directly as filesystem paths.
+
+### 7.7 predictions
+
+- id: BIGINT UNSIGNED, primary key
+- public_id: BINARY(16), unique, not null
+- user_id: BIGINT UNSIGNED, foreign key to users.id
+- plant_id: BIGINT UNSIGNED, nullable
+- batch_id: BIGINT UNSIGNED, nullable
+- image_asset_id: BIGINT UNSIGNED, not null
+- crop_id: BIGINT UNSIGNED, not null
+- disease_id: BIGINT UNSIGNED, nullable
+- confidence_score: DECIMAL(6,5), not null
+- model_version: VARCHAR(50), not null
+- created_at: DATETIME(6), not null
+
+Constraints:
+- Confidence score must be between 0 and 1.
+- Plant and batch cannot both be populated.
+- Both may be null for a general scan.
+- Image asset must belong to the same user.
+- Associated plant or batch must belong to the same user.
+- Disease, when supplied, must belong to the predicted crop.
+
+A null disease_id can represent a healthy or unclassified result.
+
+### 7.8 plant_observations
+
+- id: BIGINT UNSIGNED, primary key
+- public_id: BINARY(16), unique, not null
+- user_id: BIGINT UNSIGNED, not null
+- plant_id: BIGINT UNSIGNED, nullable
+- batch_id: BIGINT UNSIGNED, nullable
+- observation_type: VARCHAR(50), not null
+- description: TEXT, not null
+- observed_at: DATETIME(6), not null
+- created_at: DATETIME(6), not null
+
+Exactly one of plant_id or batch_id must be populated.
+
+### 7.9 treatments
+
+- id: BIGINT UNSIGNED, primary key
+- public_id: BINARY(16), unique, not null
+- user_id: BIGINT UNSIGNED, not null
+- plant_id: BIGINT UNSIGNED, nullable
+- batch_id: BIGINT UNSIGNED, nullable
+- treatment_name: VARCHAR(150), not null
+- description: TEXT, nullable
+- treatment_date: DATE, not null
+- status: VARCHAR(30), not null
+- notes: TEXT, nullable
+- created_at: DATETIME(6), not null
+- updated_at: DATETIME(6), not null
+
+Treatment statuses:
+- planned
+- in_progress
+- completed
+- cancelled
+
+Exactly one of plant_id or batch_id must be populated.
+
+### 7.10 refresh_tokens
+
+- id: BIGINT UNSIGNED, primary key
+- public_id: BINARY(16), unique, not null
+- user_id: BIGINT UNSIGNED, foreign key to users.id
+- token_hash: VARCHAR(255), not null
+- token_family_id: BINARY(16), not null
+- expires_at: DATETIME(6), not null
+- revoked_at: DATETIME(6), nullable
+- created_at: DATETIME(6), not null
+
+Raw refresh tokens must never be stored.
+
+## 8. RELATIONSHIPS AND REFERENTIAL INTEGRITY
+
+- One user owns multiple plants.
+- One user owns multiple crop batches.
+- One user creates multiple predictions.
+- One user uploads multiple image assets.
+- One crop has multiple diseases.
+- One crop can be referenced by multiple plants and batches.
+- One plant has multiple predictions.
+- One batch has multiple predictions.
+- One plant has multiple observations and treatments.
+- One batch has multiple observations and treatments.
+- One user has multiple refresh-token sessions.
+
+Use composite foreign keys where appropriate to enforce ownership:
+- plants(id, user_id)
+- crop_batches(id, user_id)
+- predictions(plant_id, user_id)
+- predictions(batch_id, user_id)
+
+Observation and treatment records must use equivalent ownership constraints.
+
+Predictions must use a composite crop/disease foreign key to prevent associating a disease with the wrong crop.
+
+## 9. INDEXING
+
+Initial indexes:
+
+- users: UNIQUE(email)
+- plants: UNIQUE(public_id), INDEX(user_id, deleted_at)
+- crop_batches: UNIQUE(public_id), INDEX(user_id, deleted_at)
+- predictions: UNIQUE(public_id), INDEX(user_id, created_at)
+- predictions: INDEX(plant_id, created_at)
+- predictions: INDEX(batch_id, created_at)
+- plant_observations: INDEX(plant_id, observed_at)
+- plant_observations: INDEX(batch_id, observed_at)
+- treatments: INDEX(plant_id, treatment_date)
+- treatments: INDEX(batch_id, treatment_date)
+- refresh_tokens: INDEX(user_id, expires_at)
+- diseases: UNIQUE(crop_id, code)
+
+Additional indexes will be introduced based on actual query patterns.
+
+## 10. DELETION AND RETENTION
+
+- Plants and batches use soft deletion.
+- Prediction history is retained.
+- Observations and treatments are retained according to the parent record's lifecycle.
+- Images must not be deleted while retained predictions reference them.
+- Refresh tokens are revoked on logout and expire according to policy.
+- Account deletion uses an explicit workflow.
+- Avoid uncontrolled cascading deletion of historical data.
+
+Foreign-key deletion behavior must be explicitly defined for every relationship.
+
+## 11. TRANSACTION MANAGEMENT
+
+Use InnoDB transactions and SQLAlchemy transaction scopes.
+
+Example prediction workflow:
+1. Validate image.
+2. Temporarily store image.
+3. Perform AI inference outside the database transaction.
+4. Start a database transaction.
+5. Create image asset record.
+6. Create prediction record.
+7. Commit both records together.
+8. Clean up temporary or orphaned files if persistence fails.
+
+Database rollback does not undo filesystem operations. Implement cleanup and reconciliation for local storage.
+
+Avoid holding database transactions open during AI inference.
+
+## 12. API MODULES
+
+Authentication:
+- POST /api/auth/register
+- POST /api/auth/login
+- POST /api/auth/refresh
+- POST /api/auth/logout
+
+Users:
+- GET /api/users/profile
+- PATCH /api/users/profile
+
+Plants:
+- POST /api/plants
+- GET /api/plants
+- GET /api/plants/:public_id
+- PATCH /api/plants/:public_id
+- DELETE /api/plants/:public_id
+
+Crop batches:
+- POST /api/batches
+- GET /api/batches
+- GET /api/batches/:public_id
+- PATCH /api/batches/:public_id
+- DELETE /api/batches/:public_id
+
+Predictions:
+- POST /api/predictions
+- GET /api/predictions
+- GET /api/predictions/:public_id
+- DELETE /api/predictions/:public_id
+
+Disease information:
+- GET /api/diseases/:crop/:disease
+
+Observations:
+- POST /api/observations
+- GET /api/observations
+- GET /api/observations/:public_id
+- PATCH /api/observations/:public_id
+- DELETE /api/observations/:public_id
+
+Treatments:
+- POST /api/treatments
+- GET /api/treatments
+- GET /api/treatments/:public_id
+- PATCH /api/treatments/:public_id
+- DELETE /api/treatments/:public_id
+
+Dashboard:
+- GET /api/dashboard/overview
+- GET /api/dashboard/health-summary
+- GET /api/dashboard/disease-statistics
+
+Reports:
+- GET /api/reports/plant/:public_id
+- GET /api/reports/batch/:public_id
+
+All user-owned endpoints require authentication and authorization.
+
+## 13. SECURITY REQUIREMENTS
+
+- Secure password hashing.
+- JWT access-token validation.
+- Refresh-token rotation and revocation.
+- Ownership checks on every user-owned resource.
+- Input validation.
+- Image file type, size and integrity validation.
+- Safe generated storage keys.
+- Protection against path traversal.
+- Environment-based secrets and database credentials.
+- Consistent error responses.
+- Logging without exposing credentials or tokens.
+- Rate limiting for sensitive endpoints.
+- Pagination for historical records.
+- Authorized image retrieval.
+
+## 14. IMPLEMENTATION ORDER
+
+Phase 1: Database foundation
+- MySQL installation and configuration
+- Database creation
+- SQLAlchemy integration
+- Flask-Migrate integration
+- Database extensions and configuration
+- Master models
+- User and tracking models
+- Constraints, relationships and indexes
+- Initial migration
+- Database integrity tests
+
+Phase 2: Authentication
+- Registration
+- Login
+- Logout
+- Access and refresh tokens
+- Protected routes
+- User profile
+
+Phase 3: Plant and batch management
+- Individual plant CRUD
+- Crop batch CRUD
+- Ownership validation
+
+Phase 4: Prediction persistence
+- Existing AI service integration
+- Local image storage
+- Prediction persistence
+- Optional plant/batch association
+- Prediction history
+
+Phase 5: Health tracking
+- Observations
+- Treatments
+- Historical records
+
+Phase 6: Dashboard and analytics
+- User-specific statistics
+- Disease frequency
+- Historical trends
+- Plant and batch summaries
+
+Phase 7: Reports and production readiness
+- Reports
+- Testing
+- Security improvements
+- Deployment
+- Backup and recovery procedures
+
+## 15. PROJECT CONSTRAINTS
+
+- Preserve the existing working prediction service.
+- Preserve the existing disease information service.
+- Support English, Kannada and Hindi.
+- Use curated agricultural information.
+- Keep AI predictions separate from disease descriptions.
+- Maintain historical records.
+- Never expose another user's data.
+- Use migrations for schema changes.
+- Test each module before proceeding to the next.
+- Do not treat AI confidence as a direct plant-health score.
+
+END OF BACKEND REQUIREMENTS
