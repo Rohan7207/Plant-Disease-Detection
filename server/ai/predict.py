@@ -1,46 +1,67 @@
 
-import sys
 from pathlib import Path
 
 import torch
 import torch.nn.functional as F
 from PIL import Image, ImageOps
 
-from model import PlantDiseaseModel
-from dataset import eval_transform, PROJECT_ROOT
-from image_quality import check_image_quality
+from .model import PlantDiseaseModel
+from .dataset import eval_transform, PROJECT_ROOT
+from .image_quality import check_image_quality
 
 
-CHECKPOINT_PATH = PROJECT_ROOT / "server" / "ai" / "mobilenetv2_phase2_best.pth"
+CHECKPOINT_PATH = (
+    PROJECT_ROOT
+    / "server"
+    / "ai"
+    / "mobilenetv2_phase2_best.pth"
+)
+
 DEVICE = torch.device("cpu")
 
 
 class PlantDiseasePredictor:
 
     def __init__(self):
+
+        if not CHECKPOINT_PATH.is_file():
+            raise FileNotFoundError(
+                f"Model checkpoint not found: {CHECKPOINT_PATH}"
+            )
+
         checkpoint = torch.load(
             CHECKPOINT_PATH,
             map_location=DEVICE,
             weights_only=True
         )
 
+        required_keys = {"classes", "model_state_dict"}
+
+        if not required_keys.issubset(checkpoint):
+            raise ValueError("Invalid model checkpoint structure")
+
         self.classes = checkpoint["classes"]
 
+        if not isinstance(self.classes, list) or not self.classes:
+            raise ValueError("Invalid class mapping in checkpoint")
+
+        if len(set(self.classes)) != len(self.classes):
+            raise ValueError("Duplicate classes found in checkpoint")
+
         self.model = PlantDiseaseModel(
-            num_classes=len(self.classes)
+            num_classes=len(self.classes),
+            pretrained=False
         )
 
-        self.model.load_state_dict(checkpoint["model_state_dict"])
+        self.model.load_state_dict(
+            checkpoint["model_state_dict"],
+            strict=True
+        )
+
         self.model.to(DEVICE)
         self.model.eval()
 
         self.transform = eval_transform
-
-        print("Model loaded successfully!")
-        print("Phase:", checkpoint["phase"])
-        print("Epoch:", checkpoint["epoch"])
-        print("Validation accuracy:", checkpoint["validation_accuracy"])
-        print("Number of classes:", len(self.classes))
 
     def predict(self, image_path, top_k=3):
 
@@ -62,17 +83,28 @@ class PlantDiseasePredictor:
             image = ImageOps.exif_transpose(original).convert("RGB")
             image_tensor = self.transform(image).unsqueeze(0)
 
-        with torch.no_grad():
+        top_k = max(1, min(int(top_k), len(self.classes)))
+
+        with torch.inference_mode():
             logits = self.model(image_tensor.to(DEVICE))
             probabilities = F.softmax(logits, dim=1)[0]
 
-        top_k = min(max(1, top_k), len(self.classes))
-        scores, indices = torch.topk(probabilities, top_k)
+            scores, indices = torch.topk(
+                probabilities,
+                top_k
+            )
 
         predictions = []
 
         for score, index in zip(scores.tolist(), indices.tolist()):
+
             class_name = self.classes[index]
+
+            if "__" not in class_name:
+                raise ValueError(
+                    f"Invalid class name in checkpoint: {class_name}"
+                )
+
             crop, disease = class_name.split("__", 1)
 
             predictions.append({
@@ -92,18 +124,3 @@ class PlantDiseasePredictor:
             "top_predictions": predictions,
             "quality": quality
         }
-
-
-if __name__ == "__main__":
-
-    if len(sys.argv) < 2:
-        print("Usage: python server/ai/predict.py <image_path>")
-        raise SystemExit(1)
-
-    predictor = PlantDiseasePredictor()
-    result = predictor.predict(sys.argv[1])
-
-    print("\n========== PREDICTION ==========")
-
-    for key, value in result.items():
-        print(f"{key}: {value}")
